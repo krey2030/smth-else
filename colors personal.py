@@ -198,4 +198,6 @@ I wanted to make this program because i was reading stuff about "Color Depth" an
 Colors used for the rgb that varies isn't canon, it is only used specifically for this program.
 Colors used for title_color is canon and is now in the color set.
 The new color function with 6 digits will be implemented in future activities but may be unused. It may also be deleted if so.
+
+This is a project made before S.Y.2026-2027
 """
