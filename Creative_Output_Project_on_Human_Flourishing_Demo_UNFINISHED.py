@@ -191,10 +191,15 @@ class objects():
         forward(step*6*sin[24]/sin[66])
         speed(0)
 
-    def envelope(self,frame,step,sin,mirrored:bool,c1):
+    def envelope(self,frame,step,sin,xpos,ypos,mirrored:bool,c1):
+        Screen().tracer(0)
+        forward(ypos)
+        right(90)
+        forward(xpos)
+        Screen().tracer(1)
         pensize(step/8)
         speed(step/16)
-        right(90)
+
         pendown()
         pencolor(c1)
         fillcolor(c1)
@@ -217,9 +222,16 @@ class objects():
             right(60)
         left(90)
         end_fill()
+
         penup()
         pensize(0)
         speed(0)
+        Screen().tracer(0)
+        right(90)
+        forward(-xpos)
+        left(90)
+        forward(-ypos)
+
 
     class monitor:
         def __init__(self,frame,step,sin,c1,c2,c3,c4):
@@ -278,9 +290,9 @@ class objects():
             left(90)
             penup()
             pensize(0)
-        #def
-        #next step
-        #would lit up and show text, or be off
+
+        def power(self):
+            None
     
     
     
@@ -367,7 +379,7 @@ class objects():
             forward(-ypos)
             
         class sys_unit():
-            def __init__(self,frame,step,sin,xpos,ypos,mirrored,c1,c2,c3):
+            def __init__(self,frame,step,sin,xpos,ypos,mirrored,c1,c2,c3,c4,c5,c6):
                 self.xpos = xpos
                 self.ypos = ypos
                 self.step = step
@@ -446,9 +458,24 @@ class objects():
                 pencolor(self.c3)
                 pensize(self.step/2)
                 forward(0)
-                #powerself()
-class areas(): 
+                objects().desktop.monitor.power(self.frame,self.step,self.sin,self.c4,self.c5,self.c6)
+
+class areas():
+    def SSVEU_reset(self,frame,step,sin):
+        clearscreen('#112',frame)
+        objects().officecubicle(frame,step,sin,'#667','#445', '#334')
+        objects().envelope(frame,step,sin,step*5,-step,False,'#765')
+        SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
+        SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
+        SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff')
+    
     def SSVEU(self,frame,step,sin):
+        def reset():
+            Screen().tracer(0)
+            objects().officecubicle(frame,step,sin,'#667','#445', '#334')
+            objects().envelope(frame,step,sin,step*5,-step,False,'#765')
+
         clearscreen('#000',frame)
         #Screen().update()
         print(f"{OS}{color('#667',OFF)}You're about to wake up... input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to go back to sleep.")
@@ -463,31 +490,115 @@ class areas():
         #Screen().update()
 
         GRID(frame,step,36)
-
+        
         objects().officecubicle(frame,step,sin,'#667','#445', '#334')
         print(f"At front, your desk.",end=" ",flush=True)
-
-        Screen().tracer(0)
-        right(90);forward(step*4);right(45);forward(step*2*sin[45]);left(135)#location of envelop
-        Screen().tracer(1)
-        objects().envelope(frame,step,sin,False,'#765')
-        Screen().tracer(0)
-        right(135);forward(-step*2*sin[45]);left(45);forward(-step*4);left(90)#returning to center
+        
+        objects().envelope(frame,step,sin,step*5,-step,False,'#765')
         print(f"To the side is an envelope.",end=" ",flush=True)
         
         Screen().tracer(1)
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
         print(f"On the desk is a monitor.")
+
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         print(f"It has a keyboard ",end="",flush=True)
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
-        print(f"and a mouse.",end=" ",flush=True)
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e')
-        input(f"Below is a PC system unit.")
+        print(f"and a mouse. And finally,",end=" ",flush=True)
 
-        #NEXT ASK
-
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff')
+        print(f"below is a PC system unit.")
         
+        time.sleep(2)
+        print(f"You saw everything around you. What will you do now?")
+        free = False
+        while True:
+            decision = input(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}v{effect(22)}{effect(23)} to see envelope. Input {effect(1)}{effect(3)}c{effect(22)}{effect(23)} to turn on computer. Input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to leave desk.").lower()
+            if decision == "v":
+                _ = areas.envelope(frame,step,sin,'#765','#cde','#9b9')
+                print(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}hr{effect(22)}{effect(23)} to see {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values (Lesson 1){effect(22)}. ")
+                decision2 = input(f"Input {effect(1)}{effect(3)}p{effect(22)}{effect(23)} to see periodic table. Otherwise, you will stop looking at the envelope.").lower()
+                if decision2 == "hr":_.HR_Lesson1()
+                elif decision2 == "p":_.ptable()
+                areas().SSVEU_reset(frame,step,sin)
+            elif decision == "c":
+                while True:
+                    SSVEUpc.sys_unit.power()
+                areas().SSVEU_reset(frame,step,sin)
+            elif decision == "x":
+                if free:break
+                else:
+                    print(f"{effect(22)}{effect(23)}You decided to leave the desk.")
+                    time.sleep(2)
+                    print(f"You decided to go back to the desk since you have nothing else to do.")
+            else:print(f"{effect(22)}You don't know what to do. You decided to lick the mouse. Please decide better.")
+    
+    class envelope():
+        def __init__(self, frame,step,sin,c1,c2,c3):
+            self.step = step
+            self.c2=c2
+            self.c3=c3
+            forward(-step*3)
+            right(90)
+            pendown()
+            tcolor(c1)
+            begin_fill()
+            forward(step*8)
+            left(90)
+            forward(step*9)#height
+            left(90)
+            forward(step*16)#length
+            left(90)
+            forward(step*9)#height
+            left(90)
+            forward(step*8)
+            end_fill()
+            penup()
+            left(90)
+
+        def HR_Lesson1(self):
+            tcolor(self.c2)
+            forward(-self.step*2)
+            right(90)
+            pendown()
+            begin_fill()
+            forward(self.step*4)
+            left(90)
+            forward(self.step*13)
+            left(90)
+            forward(self.step*8)
+            left(90)
+            forward(self.step*13)
+            left(90)
+            forward(self.step*4)
+            end_fill()
+            penup()
+            left(90)
+            forward(self.step*2)
+        
+        def ptable(self):
+            tcolor(self.c3)
+            forward(self.step*2.25)
+            right(90)
+            pendown()
+            begin_fill()
+            forward(self.step*5)
+            left(90)
+            forward(self.step*5)
+            left(90)
+            forward(self.step*10)
+            left(90)
+            forward(self.step*5)
+            left(90)
+            forward(self.step*5)
+            end_fill()
+            penup()
+            left(90)
+            forward(-self.step*2.25)
+
+        def __del__(self):
+            forward(self.step*3)
+
 class dictionary():None
 
 def GAMESEQUENCE():
