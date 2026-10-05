@@ -122,7 +122,7 @@ class objects():
         #borders
         pencolor(c2)
         forward(step*6)
-        for i in range(2):
+        for _ in range(2):
             left(90)
             forward(step*10)
             left(90)
@@ -317,23 +317,16 @@ class objects():
             left(114)
             forward(step*4)
             end_fill()
-            for i in range(3,-1,-1):
-                print(i)
-                print(i*6)
-                print(90-i*6)
-                forward(step*i)
-                
-                left(90+i*6)
-                forward(step/sin[90-i*6])
-                
-                left(90-i*6)
-                forward(step*2*(i-sin[i*6]/sin[90-i*6]))
-                
-                left(90-i*6)
-                forward(step/sin[90-i*6])
-                
-                left(90+i*6)
-                forward(step*i)
+            for _ in range(3,-1,-1):
+                forward(step*_)
+                left(90+_*6)
+                forward(step/sin[90-_*6])
+                left(90-_*6)
+                forward(step*2*(_-sin[_*6]/sin[90-_*6]))
+                left(90-_*6)
+                forward(step/sin[90-_*6])
+                left(90+_*6)
+                forward(step*_)
                 
             
             penup()
@@ -342,8 +335,37 @@ class objects():
             forward(-ypos)
 
         def mouse(self,frame,step,sin,xpos,ypos,c1,c2):
-            None
+            forward(ypos)
+            right(90)
+            
+            forward(xpos)
 
+            pendown()
+            pencolor(c2)
+            fillcolor(c1)
+            begin_fill()
+            for _ in range(2):
+                circle(step*1/3,90)
+                forward(step*1/3)
+                circle(step*1/3,90)
+            end_fill()
+            left(90)
+            penup()
+            forward(step*0.5)
+            pendown()
+            forward(step*0.15)
+            pensize(step/8)
+            forward(step*0.2)
+            pensize(0)
+            forward(step*0.15)
+            penup()
+            forward(-step*2)
+
+            right(90)
+            forward(-xpos)
+            left(90)
+            forward(-ypos)
+            
         class sys_unit():
             def __init__(self,frame,step,sin,xpos,ypos,mirrored,c1,c2,c3):
                 self.xpos = xpos
@@ -451,16 +473,21 @@ class areas():
         objects().envelope(frame,step,sin,False,'#765')
         Screen().tracer(0)
         right(135);forward(-step*2*sin[45]);left(45);forward(-step*4);left(90)#returning to center
-        print(f"To the side is an envelope.",end="",flush=True)
+        print(f"To the side is an envelope.",end=" ",flush=True)
         
         Screen().tracer(1)
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
-        print(f"At front is a monitor.")
+        print(f"On the desk is a monitor.")
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         print(f"It has a keyboard ",end="",flush=True)
-        print(f"and a mouse.",end="",flush=True)
+        SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
+        print(f"and a mouse.",end=" ",flush=True)
         SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e')
-        print(f"Below is a PC system unit.")
+        input(f"Below is a PC system unit.")
+
+        #NEXT ASK
+
+        
 class dictionary():None
 
 def GAMESEQUENCE():
@@ -475,7 +502,7 @@ def GAMESEQUENCE():
     
     tracer(0)
     outofbounds = ['#000','#4d6','#090','#fff','#fff','#667','#112','#445','#334','#765','#555','#00e','#444']#easteregg+helpful collection colors used, #fff are title colors
-    for i in range(len(outofbounds)):clearscreen(outofbounds[i],frame*(-i+len(outofbounds)))
+    for _ in range(len(outofbounds)):clearscreen(outofbounds[_],frame*(-_+len(outofbounds)))
     tracer(1)
 
     areas().SSVEU(frame,step,sin)
