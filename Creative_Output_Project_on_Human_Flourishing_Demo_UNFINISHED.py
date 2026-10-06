@@ -23,6 +23,7 @@ from turtle import *
 from turtle import color as tcolor #color is already used so replaced
 from turtle import clearscreen as trueclearscreen
 from important_module import *
+from random import *
 
 C = f"{effect(1)}{color('#000',ON)}{color('#4d6',OFF)}" #green text (brighter)
 OS = f"{effect(22)}{color('#090',OFF)}{color('#000',ON)}" #green text (Darker)
@@ -48,8 +49,10 @@ def Program_run():#starts program
 
 def clearscreen(Hex,frame):#better clear screen lol
     pencolor(Hex)
-    pensize(frame*8)#whathappenswhenyougooutofbounds
+    pendown()
+    pensize(frame*8)
     forward(0)
+    penup()
 
 def GRID(frame,step,length):#debugging purposes
     Screen().tracer(0)
@@ -462,6 +465,7 @@ class objects():
 
 class areas():
     def SSVEU_reset(self,frame,step,sin):
+        Screen().tracer(0)
         clearscreen('#112',frame)
         objects().officecubicle(frame,step,sin,'#667','#445', '#334')
         objects().envelope(frame,step,sin,step*5,-step,False,'#765')
@@ -469,13 +473,9 @@ class areas():
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
         SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff')
+        Screen().tracer(1)
     
     def SSVEU(self,frame,step,sin):
-        def reset():
-            Screen().tracer(0)
-            objects().officecubicle(frame,step,sin,'#667','#445', '#334')
-            objects().envelope(frame,step,sin,step*5,-step,False,'#765')
-
         clearscreen('#000',frame)
         #Screen().update()
         print(f"{OS}{color('#667',OFF)}You're about to wake up... input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to go back to sleep.")
@@ -513,17 +513,22 @@ class areas():
         print(f"You saw everything around you. What will you do now?")
         free = False
         while True:
-            decision = input(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}v{effect(22)}{effect(23)} to see envelope. Input {effect(1)}{effect(3)}c{effect(22)}{effect(23)} to turn on computer. Input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to leave desk.").lower()
+            decision = input(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}v{effect(22)}{effect(23)} to see envelope. Input {effect(1)}{effect(3)}c{effect(22)}{effect(23)} to turn on computer. Input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to leave desk.{effect(1)}{effect(3)}\n").lower()
             if decision == "v":
                 _ = areas.envelope(frame,step,sin,'#765','#cde','#9b9')
                 print(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}hr{effect(22)}{effect(23)} to see {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values (Lesson 1){effect(22)}. ")
-                decision2 = input(f"Input {effect(1)}{effect(3)}p{effect(22)}{effect(23)} to see periodic table. Otherwise, you will stop looking at the envelope.").lower()
-                if decision2 == "hr":_.HR_Lesson1()
-                elif decision2 == "p":_.ptable()
-                areas().SSVEU_reset(frame,step,sin)
+                decision2 = input(f"Input {effect(1)}{effect(3)}p{effect(22)}{effect(23)} to see periodic table. Otherwise, you will stop looking at the envelope.{effect(1)}{effect(3)}").lower()
+                if decision2 == "hr":
+                    _.HR_Lesson1()
+                    input(f"{effect(22)}{effect(23)}You saw the homeroom activity.")
+                elif decision2 == "p":
+                    _.ptable()
+                    input(f"{effect(22)}{effect(23)}You saw the Periodic Table. There is nothing important to know as of now.")
+                del _
             elif decision == "c":
                 while True:
-                    SSVEUpc.sys_unit.power()
+                    #@class_method thingy
+                    SSVEUpc.sys_unit.power()#NEXT THING TO DO
                 areas().SSVEU_reset(frame,step,sin)
             elif decision == "x":
                 if free:break
@@ -531,16 +536,19 @@ class areas():
                     print(f"{effect(22)}{effect(23)}You decided to leave the desk.")
                     time.sleep(2)
                     print(f"You decided to go back to the desk since you have nothing else to do.")
-            else:print(f"{effect(22)}You don't know what to do. You decided to lick the mouse. Please decide better.")
+            else:print(f"{effect(22)}You don't know what to do. You decided to {choice(["lick","stare at","brush your hand against"])} the {choice(["monitor", "mouse", "keyboard", "envelope", "glowing blue light shining from the monitor","desk","PC system unit"])}. Please decide better.")
     
     class envelope():
         def __init__(self, frame,step,sin,c1,c2,c3):
+            self.frame = frame
             self.step = step
+            self.sin = sin
             self.c2=c2
             self.c3=c3
             forward(-step*3)
             right(90)
             pendown()
+            pensize(step/4)
             tcolor(c1)
             begin_fill()
             forward(step*8)
@@ -555,6 +563,7 @@ class areas():
             end_fill()
             penup()
             left(90)
+            pensize(0)
 
         def HR_Lesson1(self):
             tcolor(self.c2)
@@ -597,7 +606,8 @@ class areas():
             forward(-self.step*2.25)
 
         def __del__(self):
-            forward(self.step*3)
+            forward(self.step*6)
+            areas().SSVEU_reset(self.frame,self.step,sin)
 
 class dictionary():None
 
