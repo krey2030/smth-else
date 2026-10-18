@@ -14,7 +14,7 @@ Function at line 73 - Run in Terminal
 Function at line 112 - Run in Turtle
 Lines 189 ~ 205 - Unimportant message 【ignore it】
 
-※Color set used: Tau-Comlines
+※Color set used: Tau-Comlines with past Red Turtle colors also used
 ※Vscode is recommended to be used
 """
 from os import system as sys #makes it simple
@@ -235,7 +235,6 @@ class objects():
         left(90)
         forward(-ypos)
 
-
     class monitor:
         def __init__(self,frame,step,sin,c1,c2,c3,c4):
             #base
@@ -294,10 +293,10 @@ class objects():
             penup()
             pensize(0)
 
-        def power(self):
-            None
-    
-    
+        def power(self, frame, step, sin,c5,c6,c7,c8):#NEXT TO DO
+            self.frame = frame;self.step=step;self.sin=sin
+            self.c5=c5;self.c6=c6;self.c7=c7;self.c8=c8
+            print(f"{color(c5,OFF)}text{color(c6,OFF)}text{color(c7,OFF)}text{color(c8,OFF)}text")
     
     class desktop:
         def __init__(self,frame,step,sin,xpos,ypos,c1,c2,c3,c4):#oddly enough the main part became the monitors
@@ -349,7 +348,7 @@ class objects():
             left(90)
             forward(-ypos)
 
-        def mouse(self,frame,step,sin,xpos,ypos,c1,c2):
+        def mouse(self,frame,step,sin,xpos,ypos,c1,c2):#also decoration
             forward(ypos)
             right(90)
             
@@ -381,23 +380,18 @@ class objects():
             left(90)
             forward(-ypos)
             
-        class sys_unit():
-            def __init__(self,frame,step,sin,xpos,ypos,mirrored,c1,c2,c3,c4,c5,c6):
-                self.xpos = xpos
-                self.ypos = ypos
-                self.step = step
-                self.sin = sin
-                self.c3 = c3
+        class sys_unit:
+            def __init__(self,frame,step,sin,xpos,ypos,mirrored,c1,c2,c3,c4,c5,c6,c7):
+                self.xpos = xpos;self.ypos = ypos
+                self.frame = frame;self.step = step;self.sin = sin
+                self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6;self.c7=c7
 
-                forward(ypos)
-                right(90)
+                forward(ypos);right(90)
                 
-                forward(xpos)
-                left(90)
+                forward(xpos);left(90)
                 
                 pendown()
-                pencolor(c1)
-                fillcolor(c1)
+                pencolor(c1);fillcolor(c1)
                 begin_fill()
                 forward(step*7)
                 if mirrored:left(60)
@@ -461,7 +455,7 @@ class objects():
                 pencolor(self.c3)
                 pensize(self.step/2)
                 forward(0)
-                objects().desktop.monitor.power(self.frame,self.step,self.sin,self.c4,self.c5,self.c6)
+                objects.monitor.power(self,self.frame, self.step, self.sin, self.c4, self.c5, self.c6, self.c7)
 
 class areas():
     def SSVEU_reset(self,frame,step,sin):
@@ -472,7 +466,7 @@ class areas():
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff')
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff','#fff')
         Screen().tracer(1)
     
     def SSVEU(self,frame,step,sin):
@@ -506,7 +500,7 @@ class areas():
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
         print(f"and a mouse. And finally,",end=" ",flush=True)
 
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff')
+        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff','#fff')
         print(f"below is a PC system unit.")
         
         time.sleep(2)
@@ -517,7 +511,7 @@ class areas():
             if decision == "v":
                 _ = areas.envelope(frame,step,sin,'#765','#cde','#9b9')
                 print(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}hr{effect(22)}{effect(23)} to see {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values (Lesson 1){effect(22)}. ")
-                decision2 = input(f"Input {effect(1)}{effect(3)}p{effect(22)}{effect(23)} to see periodic table. Otherwise, you will stop looking at the envelope.{effect(1)}{effect(3)}").lower()
+                decision2 = input(f"Input {effect(1)}{effect(3)}p{effect(22)}{effect(23)} to see periodic table. Otherwise, you will stop looking at the envelope.{effect(1)}{effect(3)}\n").lower()
                 if decision2 == "hr":
                     _.HR_Lesson1()
                     input(f"{effect(22)}{effect(23)}You saw the homeroom activity.")
@@ -527,7 +521,6 @@ class areas():
                 del _
             elif decision == "c":
                 while True:
-                    #@class_method thingy
                     SSVEUpc.sys_unit.power()#NEXT THING TO DO
                 areas().SSVEU_reset(frame,step,sin)
             elif decision == "x":
@@ -536,8 +529,12 @@ class areas():
                     print(f"{effect(22)}{effect(23)}You decided to leave the desk.")
                     time.sleep(2)
                     print(f"You decided to go back to the desk since you have nothing else to do.")
-            else:print(f"{effect(22)}You don't know what to do. You decided to {choice(["lick","stare at","brush your hand against"])} the {choice(["monitor", "mouse", "keyboard", "envelope", "glowing blue light shining from the monitor","desk","PC system unit"])}. Please decide better.")
-    
+            else:
+                blulight = f"{color('#00e',OFF)}glowing blue light shining from the monitor{color('#667',OFF)}"
+                evope = f"{color('#765',ON)}'envelope'{color('#112',ON)}"
+                print(f"{effect(22)}You don't know what to do. You decided to {choice(['lick','stare at','brush your hand against'])} the {choice(['monitor', 'mouse', 'keyboard', evope, blulight,'desk','PC system unit'])}. Please decide better.")
+                del blulight,evope
+
     class envelope():
         def __init__(self, frame,step,sin,c1,c2,c3):
             self.frame = frame
@@ -622,16 +619,89 @@ def GAMESEQUENCE():
     left(90)
     
     tracer(0)
-    outofbounds = ['#000','#4d6','#090','#fff','#fff','#667','#112','#445','#334','#765','#555','#00e','#444']#easteregg+helpful collection colors used, #fff are title colors
+    outofbounds = ['#000','#4d6','#090','#fff','#fff','#765','#9b9','#c21','#eee','#112','#667','#445','#334','#555','#00e','#444','#cde']#easteregg+helpful collection colors used, #fff are title colors
     for _ in range(len(outofbounds)):clearscreen(outofbounds[_],frame*(-_+len(outofbounds)))
     tracer(1)
+    clearscreen('#000',frame)
 
+    print(f"{OS}Do you have the following {C}{effect(1)}{effect(3)}Physical Object{effect(22)}{effect(23)}{OS} with you?")
+    
+    print(f"{effect(1)}{effect(3)}{color('#765',ON)}{color('#000',OFF)}Envelope{effect(23)}{effect(22)}")
+    print(f"{effect(1)}Details:{effect(22)}")
+    print(f"• {effect(3)}Has:{effect(23)}")
+    print(f"{color('#9b9',ON)}→ {color('#c21',OFF)}Adventurer®      Periodic Table of the Elements\nschool and office") 
+    print(f"{color('#eee',ON)}{color('#000',OFF)}→ {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values\n\t\t\t\t(Lesson 1)")
+    print(f"{effect(22)}{color('#eee',ON)}{color('#000',OFF)}→ {effect(3)}A bond paper")
+    print(f"{effect(22)}{effect(3)}{color('#765',ON)}{color('#000',OFF)}• Written behind:")
+    print(f"→ {effect(1)}Int{effect(3)}a{effect(23)}l, Kurt Ashe\n  Rey.")
+
+    print(f"{OS}\nInput {C}{effect(1)}{effect(3)}y{effect(22)}{effect(23)}{OS} if you have the {C}{effect(1)}{effect(3)}Physical Object{effect(22)}{effect(23)}{OS}s.\n")
+    input(f"{effect(1)}{effect(3)}{color('#765',ON)}{color('#000',OFF)}Envelope{effect(23)}{OS}: {effect(3)}{C}").lower()#MAKE IT WORK!!!
+    
     areas().SSVEU(frame,step,sin)
     input()
 
 if __name__ == "__main__":Program_run()
 
 """
+DO NEXT!!
+once the PC turns on, inside it would be filled with white
+User can open khub to answer 2 quizzes:
+Lesson 3:Human Flourishing
+has a lock (seen in turtle)
+written: Not available unless: <smth about finishing game>
+the other one:
+
+answers must be based of from the envelope for Part 2
+HR
+Learning Activity: Becoming a Pisay Scholar: Living the Core Values
+
+Part 1: (multiple choice)
+PSHS forms scholaras who are not only intelligent but also trustworthy and service-oriented.
+Using your knowledge on scholar's equation and, answer the following questions:
+]
+
+What is service without integrity
+a. Meaningful Service
+b. Nothing
+c. Meaningless Service (correct answer)
+
+What will be the value of Integrity when there's no excellence
+a. No value (correct answer)
+b. Meaningless Service
+c. Competence
+
+What values is Meaningful Service composed of?
+
+Excellence, Integrity, Trust, Competence, Intelligence
+correct answer: Excellence, Integrity
+user will input how many values there are (max 5), then answer
+
+Part 2: equation, may use calculator
+A student must choose up to 5 (can't choose 0) values from the values: Excellence, Integrity, Trust, Competence, Intelligence to answer the question.
+How many ways can the student answer the question?
+
+equation:
+5!/1!(5-1)!+5!/2!(5-2)!+5!/3!(5-3)!+5!/4!(5-4)!+5!/5!(5-5)!
+or
+5!/(5-1)!+5!/2(5-2)!+5!/3!(5-3)!+5!/4!(5-4)!+5!/5!
+or
+C(5,1)+C(5,2)+C(5,3)+C(5,4)+C(5,5)
+answer:31
+
+part 3: Giving Meaning to Pisay Core Values (short response) color: dark grey ON, paperwhite OFF
+everything na nakasulat sa Learning activity part 1
+sasagutin dapat 1, 2, 3 of Part 1,
+must be 20 characters minimum per question long and has 4 either periods, exclamation points, or question marks.
+
+part 4: Commitment Statement (2 minutes)
+also everything na nakasulat sa Learning activity part 3,
+answer must be minimum 1 characters long for each blank.
+
+
+
+
+
 personal comment example:
 ※A creative title and explaination🥰
 ※Text effects, time module, and os module for emphasis and style
