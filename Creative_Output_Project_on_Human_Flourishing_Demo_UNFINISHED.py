@@ -266,7 +266,7 @@ class objects():
             pensize(step/2)
             forward(step*6)
 
-            penup()#blink
+            penup()#glow
             forward(-step)
             pendown()
             pensize(step/4)
@@ -293,11 +293,43 @@ class objects():
             penup()
             pensize(0)
 
-        def power(self, frame, step, sin,c5,c6,c7,c8):#NEXT TO DO
+        def power(self, xpos, ypos, frame, step, sin,c5,c6,c7,c8):#NEXT TO DO
             self.frame = frame;self.step=step;self.sin=sin
             self.c5=c5;self.c6=c6;self.c7=c7;self.c8=c8
-            print(f"{color(c5,OFF)}text{color(c6,OFF)}text{color(c7,OFF)}text{color(c8,OFF)}text")
-    
+            fillcolor(c6)
+            pencolor(c5)
+            begin_fill()
+            right(90)
+            pensize(step/2)
+            forward(step*6)
+
+            penup()#glow
+            forward(-step)
+            pendown()
+            pensize(step/4)
+            pencolor(c7)
+            forward(0)
+            pencolor(c5)
+            pensize(step/2)
+            penup()
+            forward(step)
+            pendown()
+
+            left(90)
+            pensize(step/4)
+            forward(step*6.75)
+            left(90)
+            forward(step*12)
+            left(90)
+            forward(step*6.75)
+            left(90)
+            pensize(step/2)
+            forward(step*6)
+            end_fill()
+            left(90)
+            penup()
+            pensize(0)
+
     class desktop:
         def __init__(self,frame,step,sin,xpos,ypos,c1,c2,c3,c4):#oddly enough the main part became the monitors
             speed(step/8)
@@ -381,10 +413,11 @@ class objects():
             forward(-ypos)
             
         class sys_unit:
-            def __init__(self,frame,step,sin,xpos,ypos,mirrored,c1,c2,c3,c4,c5,c6,c7):
+            def __init__(self,frame,step,sin,xpos,ypos,monitorxpos, monitorypos, mirrored,c1,c2,c3,c4,c5,c6):
                 self.xpos = xpos;self.ypos = ypos
+                self.monitorxpos = monitorxpos;self.monitorypos = monitorypos
                 self.frame = frame;self.step = step;self.sin = sin
-                self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6;self.c7=c7
+                self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6
 
                 forward(ypos);right(90)
                 
@@ -448,14 +481,26 @@ class objects():
 
                 forward(self.step*7)
                 right(90)
-                forward(self.step*4.5)
-                left(120)
-                forward(self.step*0.5/sin[60])
+                forward(self.step*4)
+                left(150)
+                forward(self.step*0.5/sin[30])
+
                 pendown()
                 pencolor(self.c3)
-                pensize(self.step/2)
+                pensize(self.step/4)
                 forward(0)
-                objects.monitor.power(self,self.frame, self.step, self.sin, self.c4, self.c5, self.c6, self.c7)
+                penup()
+
+                forward(-self.step*0.5/sin[30])
+                right(150)
+                forward(-self.step*4)
+                left(90)
+                forward(-self.step*7)
+                right(90)
+                forward(-self.xpos)
+                left(90)
+                forward(-self.ypos)
+                objects.monitor.power(self, self.monitorxpos, self.monitorypos,self.frame, self.step, self.sin, self.c4, self.c5, self.c3, self.c6)
 
 class areas():
     def SSVEU_reset(self,frame,step,sin):
@@ -466,7 +511,7 @@ class areas():
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff','#fff')
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),0,step*-1.5,True,'#000','#112','#00e','#444','#fff','#fff')
         Screen().tracer(1)
     
     def SSVEU(self,frame,step,sin):
@@ -492,7 +537,7 @@ class areas():
         print(f"To the side is an envelope.",end=" ",flush=True)
         
         Screen().tracer(1)
-        SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
+        SSVEUpc = objects().desktop(frame,step,sin,0,-step*1.5,'#555','#000','#00e','#444')
         print(f"On the desk is a monitor.")
 
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
@@ -500,7 +545,7 @@ class areas():
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
         print(f"and a mouse. And finally,",end=" ",flush=True)
 
-        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),True,'#000','#112','#00e','#fff','#fff','#fff','#fff')
+        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),0,step*-1.5,True,'#000','#112','#00e','#444','#fff','#fff')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
         print(f"below is a PC system unit.")
         
         time.sleep(2)
