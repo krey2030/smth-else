@@ -237,6 +237,9 @@ class objects():
 
     class monitor:
         def __init__(self,frame,step,sin,c1,c2,c3,c4):
+            self.c1=c1
+            self.c3=c3
+            self.c4=c4
             #base
             pencolor(c4)
             pendown()
@@ -293,11 +296,15 @@ class objects():
             penup()
             pensize(0)
 
-        def power(self, xpos, ypos, frame, step, sin,c5,c6,c7,c8):#NEXT TO DO
-            self.frame = frame;self.step=step;self.sin=sin
-            self.c5=c5;self.c6=c6;self.c7=c7;self.c8=c8
-            fillcolor(c6)
-            pencolor(c5)
+        def power(self, xpos, ypos, frame, step, sin,c5,c6,c7,c8):#self is 
+            forward(ypos)
+            right(90)
+            
+            forward(xpos)
+            left(90)
+
+            fillcolor(c5)#c5 is color of screen inside
+            pencolor(self.c1)
             begin_fill()
             right(90)
             pensize(step/2)
@@ -307,7 +314,7 @@ class objects():
             forward(-step)
             pendown()
             pensize(step/4)
-            pencolor(c7)
+            pencolor(self.c3)
             forward(0)
             pencolor(c5)
             pensize(step/2)
@@ -567,6 +574,7 @@ class areas():
             elif decision == "c":
                 while True:
                     SSVEUpc.sys_unit.power()#NEXT THING TO DO
+                    input()
                 areas().SSVEU_reset(frame,step,sin)
             elif decision == "x":
                 if free:break
