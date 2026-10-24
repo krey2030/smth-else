@@ -237,9 +237,8 @@ class objects():
 
     class monitor:
         def __init__(self,frame,step,sin,c1,c2,c3,c4):
-            self.c1=c1
-            self.c3=c3
-            self.c4=c4
+            self.step=step;self.sin=sin
+            self.c1=c1;self.c3=c3
             #base
             pencolor(c4)
             pendown()
@@ -262,80 +261,87 @@ class objects():
             forward(step)
 
             #screen
+            pencolor(self.c1)
+            pensize(self.step/4)
             fillcolor(c2)
-            pencolor(c1)
             begin_fill()
             right(90)
-            pensize(step/2)
             forward(step*6)
-
-            penup()#glow
-            forward(-step)
-            pendown()
-            pensize(step/4)
-            pencolor(c3)
-            forward(0)
-            pencolor(c1)
-            pensize(step/2)
-            penup()
-            forward(step)
-            pendown()
-
             left(90)
-            pensize(step/4)
             forward(step*6.75)
             left(90)
             forward(step*12)
             left(90)
             forward(step*6.75)
             left(90)
-            pensize(step/2)
             forward(step*6)
             end_fill()
             left(90)
-            penup()
             pensize(0)
+            self.monitor_frame()
 
-        def power(self, xpos, ypos, frame, step, sin,c5,c6,c7,c8):#self is 
-            forward(ypos)
-            right(90)
-            
-            forward(xpos)
-            left(90)
-
-            fillcolor(c5)#c5 is color of screen inside
+        def monitor_frame(self):
+            pendown()
             pencolor(self.c1)
-            begin_fill()
             right(90)
-            pensize(step/2)
-            forward(step*6)
+            pensize(self.step/2)
+            forward(self.step*6)
 
             penup()#glow
-            forward(-step)
+            forward(-self.step)
             pendown()
-            pensize(step/4)
+            pensize(self.step/4)
             pencolor(self.c3)
             forward(0)
-            pencolor(c5)
-            pensize(step/2)
+            pencolor(self.c1)
+            pensize(self.step/2)
             penup()
-            forward(step)
+            forward(self.step)
             pendown()
 
             left(90)
-            pensize(step/4)
+            pensize(self.step/4)
+            forward(self.step*6.75)
+            left(90)
+            forward(self.step*12)
+            left(90)
+            forward(self.step*6.75)
+            left(90)
+            pensize(self.step/2)
+            forward(self.step*6)
+            left(90)
+            penup()
+            pensize(0)
+            
+        def power(self, xpos, ypos, frame, step, sin,c5,c6):#self is sys_unit, not monitor
+            forward(ypos);right(90)
+            
+            forward(xpos);left(90)
+
+            #screen
+            penup()
+            fillcolor(c5)
+            begin_fill()
+            right(90)
+            forward(step*6)
+            left(90)
             forward(step*6.75)
             left(90)
             forward(step*12)
             left(90)
             forward(step*6.75)
             left(90)
-            pensize(step/2)
             forward(step*6)
             end_fill()
             left(90)
             penup()
             pensize(0)
+
+            objects.monitor.monitor_frame(self)
+
+            right(90);forward(-xpos)
+
+            left(90);forward(-ypos)
 
     class desktop:
         def __init__(self,frame,step,sin,xpos,ypos,c1,c2,c3,c4):#oddly enough the main part became the monitors
@@ -392,16 +398,17 @@ class objects():
             right(90)
             
             forward(xpos)
-
             pendown()
             pencolor(c2)
             fillcolor(c1)
+            input()
             begin_fill()
             for _ in range(2):
                 circle(step*1/3,90)
                 forward(step*1/3)
                 circle(step*1/3,90)
             end_fill()
+            input()
             left(90)
             penup()
             forward(step*0.5)
@@ -412,26 +419,27 @@ class objects():
             pensize(0)
             forward(step*0.15)
             penup()
-            forward(-step*2)
-
+            forward(-step)
+            
+            input()
             right(90)
             forward(-xpos)
             left(90)
             forward(-ypos)
             
         class sys_unit:
-            def __init__(self,frame,step,sin,xpos,ypos,monitorxpos, monitorypos, mirrored,c1,c2,c3,c4,c5,c6):
+            def __init__(self,frame,step,sin,xpos,ypos,monitorxpos, monitorypos, mirrored,c1,c2,c3,c4,c5,c6,c7):
                 self.xpos = xpos;self.ypos = ypos
                 self.monitorxpos = monitorxpos;self.monitorypos = monitorypos
                 self.frame = frame;self.step = step;self.sin = sin
-                self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6
+                self.c1 = c1;self.c2 = c2;self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6;self.c7=c7
 
                 forward(ypos);right(90)
                 
                 forward(xpos);left(90)
                 
                 pendown()
-                pencolor(c1);fillcolor(c1)
+                pencolor(c2);fillcolor(c2)
                 begin_fill()
                 forward(step*7)
                 if mirrored:left(60)
@@ -461,7 +469,7 @@ class objects():
                 forward(step*5/sin[60])
                 end_fill()
 
-                pencolor(c2)
+                pencolor(c5)
                 left(180)
                 forward(step*5/sin[60])
                 forward(-step*5/sin[60])
@@ -478,11 +486,10 @@ class objects():
                 forward(-xpos)
                 left(90)
                 forward(-ypos)
-
+            
             def power(self):
                 forward(self.ypos)
                 right(90)
-                
                 forward(self.xpos)
                 left(90)
 
@@ -507,7 +514,7 @@ class objects():
                 forward(-self.xpos)
                 left(90)
                 forward(-self.ypos)
-                objects.monitor.power(self, self.monitorxpos, self.monitorypos,self.frame, self.step, self.sin, self.c4, self.c5, self.c3, self.c6)
+                objects.monitor.power(self, self.monitorxpos, self.monitorypos,self.frame, self.step, self.sin, self.c6, self.c7)
 
 class areas():
     def SSVEU_reset(self,frame,step,sin):
@@ -518,7 +525,7 @@ class areas():
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),0,step*-1.5,True,'#000','#112','#00e','#444','#fff','#fff')
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#fff')
         Screen().tracer(1)
     
     def SSVEU(self,frame,step,sin):
@@ -535,7 +542,7 @@ class areas():
         clearscreen('#112',frame)
         #Screen().update()
 
-        GRID(frame,step,36)
+        #GRID(frame,step,36)
         
         objects().officecubicle(frame,step,sin,'#667','#445', '#334')
         print(f"At front, your desk.",end=" ",flush=True)
@@ -551,10 +558,8 @@ class areas():
         print(f"It has a keyboard ",end="",flush=True)
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
         print(f"and a mouse. And finally,",end=" ",flush=True)
-
-        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(16-sin[60]),0,step*-1.5,True,'#000','#112','#00e','#444','#fff','#fff')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
+        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#fff')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
         print(f"below is a PC system unit.")
-        
         time.sleep(2)
         print(f"You saw everything around you. What will you do now?")
         free = False
@@ -582,6 +587,7 @@ class areas():
                     print(f"{effect(22)}{effect(23)}You decided to leave the desk.")
                     time.sleep(2)
                     print(f"You decided to go back to the desk since you have nothing else to do.")
+                    time.sleep(0.2)
             else:
                 blulight = f"{color('#00e',OFF)}glowing blue light shining from the monitor{color('#667',OFF)}"
                 evope = f"{color('#765',ON)}'envelope'{color('#112',ON)}"
