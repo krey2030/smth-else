@@ -195,11 +195,9 @@ class objects():
         speed(0)
 
     def envelope(self,frame,step,sin,xpos,ypos,mirrored:bool,c1):
-        Screen().tracer(0)
         forward(ypos)
         right(90)
         forward(xpos)
-        Screen().tracer(1)
         pensize(step/8)
         speed(step/16)
 
@@ -229,7 +227,6 @@ class objects():
         penup()
         pensize(0)
         speed(0)
-        Screen().tracer(0)
         right(90)
         forward(-xpos)
         left(90)
@@ -313,7 +310,7 @@ class objects():
             penup()
             pensize(0)
             
-        def power(self, xpos, ypos, frame, step, sin,c5,c6):#self is sys_unit, not monitor
+        def power(self, xpos, ypos, frame, step, sin,c5,c6,c7,c8):#self is sys_unit, not monitor
             forward(ypos);right(90)
             
             forward(xpos);left(90)
@@ -341,6 +338,109 @@ class objects():
 
             right(90);forward(-xpos)
 
+            left(90);forward(-ypos)
+
+        def khub(self, xpos, ypos, frame, step, sin,c5,c6,c7,c8):#self is sys_unit, not monitor
+            forward(ypos);right(90)
+            forward(xpos);left(90)
+
+            #screen
+            penup()
+            pencolor(c8)
+            fillcolor(c7)
+            begin_fill()
+            right(90)
+            forward(step*6)
+            left(90)
+            forward(step*6.75)
+            left(90)
+            forward(step*12)
+            left(90)
+            forward(step*6.75)
+            left(90)
+            forward(step*6)
+            end_fill()
+            left(90)
+            penup()
+            pensize(0)
+
+            #top bars
+            forward(step*6.75)
+            left(90)
+            fillcolor(c6)
+            begin_fill()
+            forward(step*6)
+            left(90)
+            forward(step)
+            left(90)
+            forward(step*12)
+            left(90)
+            forward(step)
+            left(90)
+            forward(step*6)
+            end_fill()
+            right(90)
+            forward(-step)
+
+            #bar2
+            fillcolor(c5)
+            left(90)
+            begin_fill()
+            forward(step*6)
+            right(90)
+            forward(step*5/8)
+            right(90)
+            forward(step*12)
+            right(90)
+            forward(step*5/8)
+            right(90)
+            forward(step*6)
+            right(90)
+            end_fill()
+
+            forward(step*1/8)
+            left(90)
+            forward(step*5.75)
+            right(90)
+            write("Dashboard", font=("Inter", round(step/4), "bold"))
+
+            forward(-step*3/4)
+            write("Welcome back, Michelle! 👋", font=("Inter", round(step/3), "bold"))
+
+            #block
+            forward(step*5/8)
+            right(90)
+            forward(step*5.75)
+            left(90)
+            forward(-step)
+            left(90)
+            begin_fill()
+            forward(step*4.5)
+            circle(step*0.5,90)
+            forward(step*4.25)
+            left(90)
+            forward(step*10)
+            left(90)
+            forward(step*4.25)
+            circle(step*0.5,90)
+            forward(step*4.5)
+            end_fill()
+            forward(step*4.75)
+            right(90)
+            forward(-step*5/8)
+            write("Timeline", font=("Inter", round(step/4), "bold"))
+            #forward(step*5/8)
+            #right(90)
+            #forward(step*4.75)
+            #left(90)
+
+            #write("Timeline", font=("Inter", round(step/4), "bold"))
+
+
+            input()
+            objects.monitor.monitor_frame(self)
+
+            right(90);forward(-xpos)
             left(90);forward(-ypos)
 
     class desktop:
@@ -401,14 +501,12 @@ class objects():
             pendown()
             pencolor(c2)
             fillcolor(c1)
-            input()
             begin_fill()
             for _ in range(2):
                 circle(step*1/3,90)
                 forward(step*1/3)
                 circle(step*1/3,90)
             end_fill()
-            input()
             left(90)
             penup()
             forward(step*0.5)
@@ -421,18 +519,17 @@ class objects():
             penup()
             forward(-step)
             
-            input()
             right(90)
             forward(-xpos)
             left(90)
             forward(-ypos)
             
         class sys_unit:
-            def __init__(self,frame,step,sin,xpos,ypos,monitorxpos, monitorypos, mirrored,c1,c2,c3,c4,c5,c6,c7):
+            def __init__(self,frame,step,sin,xpos,ypos,monitorxpos, monitorypos, mirrored,c1,c2,c3,c4,c5,c6,c7,c8,c9):
                 self.xpos = xpos;self.ypos = ypos
                 self.monitorxpos = monitorxpos;self.monitorypos = monitorypos
                 self.frame = frame;self.step = step;self.sin = sin
-                self.c1 = c1;self.c2 = c2;self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6;self.c7=c7
+                self.c1 = c1;self.c2 = c2;self.c3 = c3;self.c4 = c4;self.c5 = c5;self.c6 = c6;self.c7=c7;self.c8=c8;self.c9=c9
 
                 forward(ypos);right(90)
                 
@@ -514,7 +611,9 @@ class objects():
                 forward(-self.xpos)
                 left(90)
                 forward(-self.ypos)
-                objects.monitor.power(self, self.monitorxpos, self.monitorypos,self.frame, self.step, self.sin, self.c6, self.c7)
+                objects.monitor.power(self, self.monitorxpos, self.monitorypos,self.frame, self.step, self.sin, self.c6, self.c7,self.c8,self.c9)
+
+            def khub(self):objects.monitor.khub(self, self.monitorxpos, self.monitorypos,self.frame, self.step, self.sin, self.c6, self.c7,self.c8,self.c9)
 
 class areas():
     def SSVEU_reset(self,frame,step,sin):
@@ -525,12 +624,11 @@ class areas():
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#fff')
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#999','#dde','#000')
         Screen().tracer(1)
-    
+        #Screen().update()
     def SSVEU(self,frame,step,sin):
         clearscreen('#000',frame)
-        #Screen().update()
         print(f"{OS}{color('#667',OFF)}You're about to wake up... input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to go back to sleep.")
         decision = input(f"Otherwise you will start looking around.{effect(1)}{effect(3)}").lower()
         while decision == "x":
@@ -540,8 +638,8 @@ class areas():
             time.sleep(0.5)
         print(f"{color('#112',ON)}{color('#667',OFF)}{effect(22)}{effect(23)}You look around. You found yourself in the SSVE Unit.")#SocSci ValEd Unit
         clearscreen('#112',frame)
-        #Screen().update()
 
+        #hideturtle()
         #GRID(frame,step,36)
         
         objects().officecubicle(frame,step,sin,'#667','#445', '#334')
@@ -558,13 +656,13 @@ class areas():
         print(f"It has a keyboard ",end="",flush=True)
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
         print(f"and a mouse. And finally,",end=" ",flush=True)
-        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#fff')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
+        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#999','#dde','#000')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
         print(f"below is a PC system unit.")
         time.sleep(2)
         print(f"You saw everything around you. What will you do now?")
         free = False
         while True:
-            decision = input(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}v{effect(22)}{effect(23)} to see envelope. Input {effect(1)}{effect(3)}c{effect(22)}{effect(23)} to turn on computer. Input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to leave desk.{effect(1)}{effect(3)}\n").lower()
+            decision = input(f"\n{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}v{effect(22)}{effect(23)} to see envelope. Input {effect(1)}{effect(3)}c{effect(22)}{effect(23)} to turn on computer. Input {effect(1)}{effect(3)}x{effect(22)}{effect(23)} to leave desk.{effect(1)}{effect(3)}\n").lower()
             if decision == "v":
                 _ = areas.envelope(frame,step,sin,'#765','#cde','#9b9')
                 print(f"{effect(22)}{effect(23)}Input {effect(1)}{effect(3)}hr{effect(22)}{effect(23)} to see {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values (Lesson 1){effect(22)}. ")
@@ -579,6 +677,7 @@ class areas():
             elif decision == "c":
                 while True:
                     SSVEUpc.sys_unit.power()#NEXT THING TO DO
+                    SSVEUpc.sys_unit.khub()
                     input()
                 areas().SSVEU_reset(frame,step,sin)
             elif decision == "x":
@@ -590,7 +689,7 @@ class areas():
                     time.sleep(0.2)
             else:
                 blulight = f"{color('#00e',OFF)}glowing blue light shining from the monitor{color('#667',OFF)}"
-                evope = f"{color('#765',ON)}'envelope'{color('#112',ON)}"
+                evope = f"{color('#765',ON)}envelope{color('#112',ON)}"
                 print(f"{effect(22)}You don't know what to do. You decided to {choice(['lick','stare at','brush your hand against'])} the {choice(['monitor', 'mouse', 'keyboard', evope, blulight,'desk','PC system unit'])}. Please decide better.")
                 del blulight,evope
 
@@ -678,14 +777,14 @@ def GAMESEQUENCE():
     left(90)
     
     tracer(0)
-    outofbounds = ['#000','#4d6','#090','#fff','#fff','#765','#9b9','#c21','#eee','#112','#667','#445','#334','#555','#00e','#444','#cde']#easteregg+helpful collection colors used, #fff are title colors
+    outofbounds = ['#000','#4d6','#090','#fff','#fff','#765','#9b9','#c21','#eee','#112','#667','#445','#334','#555','#00e','#444','#cde','#666','#dde']#easteregg+helpful collection colors used, #fff are title colors
     for _ in range(len(outofbounds)):clearscreen(outofbounds[_],frame*(-_+len(outofbounds)))
     tracer(1)
     clearscreen('#000',frame)
 
     print(f"{OS}Do you have the following {C}{effect(1)}{effect(3)}Physical Object{effect(22)}{effect(23)}{OS} with you?")
     
-    print(f"{effect(1)}{effect(3)}{color('#765',ON)}{color('#000',OFF)}Envelope{effect(23)}{effect(22)}")
+    print(f"{effect(1)}{effect(3)}{color('#000',OFF)}{color('#765',ON)}Envelope{effect(23)}{effect(22)}")
     print(f"{effect(1)}Details:{effect(22)}")
     print(f"• {effect(3)}Has:{effect(23)}")
     print(f"{color('#9b9',ON)}→ {color('#c21',OFF)}Adventurer®      Periodic Table of the Elements\nschool and office") 
