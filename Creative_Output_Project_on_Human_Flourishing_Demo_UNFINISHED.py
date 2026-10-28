@@ -23,6 +23,7 @@ from turtle import *
 from turtle import color as tcolor #color is already used so replaced
 from turtle import clearscreen as trueclearscreen
 from important_module import *
+from datetime import *
 from random import *
 
 C = f"{effect(1)}{color('#000',ON)}{color('#4d6',OFF)}" #green text (brighter)
@@ -678,6 +679,9 @@ class areas():
                 while True:
                     SSVEUpc.sys_unit.power()#NEXT THING TO DO
                     SSVEUpc.sys_unit.khub()
+
+                    #Timeline has light gray line, then the date in bold below but its penwrite not terminal btw
+                    print(date.today().strftime("%A, %d %B %Y"))#make it %-d if may 0 palaS
                     input()
                 areas().SSVEU_reset(frame,step,sin)
             elif decision == "x":
