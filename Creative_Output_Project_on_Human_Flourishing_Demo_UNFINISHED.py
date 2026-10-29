@@ -23,7 +23,7 @@ from turtle import *
 from turtle import color as tcolor #color is already used so replaced
 from turtle import clearscreen as trueclearscreen
 from important_module import *
-from datetime import *
+from datetime import datetime
 from random import *
 
 C = f"{effect(1)}{color('#000',ON)}{color('#4d6',OFF)}" #green text (brighter)
@@ -430,16 +430,25 @@ class objects():
             right(90)
             forward(-step*5/8)
             write("Timeline", font=("Inter", round(step/4), "bold"))
-            #forward(step*5/8)
-            #right(90)
-            #forward(step*4.75)
-            #left(90)
+            forward(-step*3/8)
+            #Timeline has light gray line, then the date in bold below but its penwrite not terminal btw
+            write(datetime.now().strftime("%A, %d %B %Y"), font=("Inter", round(step/4.5), "bold"))#make it %-d if may 0 pala
+            forward(-step*3/8)
+            write(None)#make it %-d if may 0 pala
+            #UNFINISHED ^^
 
-            #write("Timeline", font=("Inter", round(step/4), "bold"))
+
+
+
 
 
             input()
             objects.monitor.monitor_frame(self)
+
+            #forward(step*5/8)
+            #right(90)
+            #forward(step*4.75)
+            #left(90)
 
             right(90);forward(-xpos)
             left(90);forward(-ypos)
@@ -625,7 +634,7 @@ class areas():
         SSVEUpc = objects().desktop(frame,step,sin,0,step*-1.5,'#555','#000','#00e','#444')
         SSVEUpc.keyboard(frame,step,sin,0,step*-4,'#000','#444')
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
-        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#999','#dde','#000')
+        SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#999','#ddd','#000')
         Screen().tracer(1)
         #Screen().update()
     def SSVEU(self,frame,step,sin):
@@ -657,7 +666,7 @@ class areas():
         print(f"It has a keyboard ",end="",flush=True)
         SSVEUpc.mouse(frame,step,sin,step*5,step*-4,'#000','#444')
         print(f"and a mouse. And finally,",end=" ",flush=True)
-        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#999','#dde','#000')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
+        SSVEUpc.sys_unit = SSVEUpc.sys_unit(frame,step,sin,step*6.5,-step*(17-sin[60]),0,step*-1.5,True,'#555','#000','#00e','#444','#112','#fff','#999','#ddd','#000')#0 and -step*1.5 are x and y components of SSVEUpc, but it's hard to link them together where SSVEUpc.sys_unit would get the monitor's x and y components from SSVEUpc itself
         print(f"below is a PC system unit.")
         time.sleep(2)
         print(f"You saw everything around you. What will you do now?")
@@ -680,8 +689,6 @@ class areas():
                     SSVEUpc.sys_unit.power()#NEXT THING TO DO
                     SSVEUpc.sys_unit.khub()
 
-                    #Timeline has light gray line, then the date in bold below but its penwrite not terminal btw
-                    print(date.today().strftime("%A, %d %B %Y"))#make it %-d if may 0 palaS
                     input()
                 areas().SSVEU_reset(frame,step,sin)
             elif decision == "x":
@@ -781,7 +788,7 @@ def GAMESEQUENCE():
     left(90)
     
     tracer(0)
-    outofbounds = ['#000','#4d6','#090','#fff','#fff','#765','#9b9','#c21','#eee','#112','#667','#445','#334','#555','#00e','#444','#cde','#666','#dde']#easteregg+helpful collection colors used, #fff are title colors
+    outofbounds = ['#000','#4d6','#090','#fff','#fff','#765','#9b9','#c21','#ddd','#112','#667','#445','#334','#555','#00e','#444','#cde','#666','#ddd']#easteregg+helpful collection colors used, #fff are title colors
     for _ in range(len(outofbounds)):clearscreen(outofbounds[_],frame*(-_+len(outofbounds)))
     tracer(1)
     clearscreen('#000',frame)
@@ -792,8 +799,8 @@ def GAMESEQUENCE():
     print(f"{effect(1)}Details:{effect(22)}")
     print(f"• {effect(3)}Has:{effect(23)}")
     print(f"{color('#9b9',ON)}→ {color('#c21',OFF)}Adventurer®      Periodic Table of the Elements\nschool and office") 
-    print(f"{color('#eee',ON)}{color('#000',OFF)}→ {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values\n\t\t\t\t(Lesson 1)")
-    print(f"{effect(22)}{color('#eee',ON)}{color('#000',OFF)}→ {effect(3)}A bond paper")
+    print(f"{color('#ddd',ON)}{color('#000',OFF)}→ {effect(1)}Learning Activity: Becoming a Pisay Scholar: Living the Core Values\n\t\t\t\t(Lesson 1)")
+    print(f"{effect(22)}{color('#ddd',ON)}{color('#000',OFF)}→ {effect(3)}A bond paper")
     print(f"{effect(22)}{effect(3)}{color('#765',ON)}{color('#000',OFF)}• Written behind:")
     print(f"→ {effect(1)}Int{effect(3)}a{effect(23)}l, Kurt Ashe\n  Rey.")
 
